@@ -36,32 +36,30 @@ jobs:
       - name: Show Summary
         working-directory: ./aluno_code
         run: |
-          # 1. Conta ocorrências e garante que o resultado seja numérico
-          # O 'grep -c' no Linux retorna 0 se não achar, mas vamos garantir
+          # Usamos o 'grep -c' direto e guardamos o resultado
+          # Adicionamos o '|| true' para o shell não abortar se o contador for 0
           PASSED=$(grep -c '"result":"success"' machine_results.json || echo 0)
           FAILED=$(grep -c '"result":"failure"' machine_results.json || echo 0)
           ERROR=$(grep -c '"result":"error"' machine_results.json || echo 0)
-          
-          # 2. Tratamento para caso o grep retorne vazio por erro de permissão
-          PASSED=${PASSED:-0}
-          FAILED=${FAILED:-0}
-          ERROR=${ERROR:-0}
-          
-          # 3. Cálculos
+
+          # Força a conversão para inteiro (remove espaços ou quebras de linha)
+          PASSED=$((10#$PASSED))
+          FAILED=$((10#$FAILED))
+          ERROR=$((10#$ERROR))
+
           REPROVADOS=$((FAILED + ERROR))
           TOTAL=$((PASSED + REPROVADOS))
 
           echo "------------------------------------------"
-          echo "RESULTADOS FINAIS (Ambiente Linux)"
+          echo "RESULTADOS FINAIS"
           echo "------------------------------------------"
           echo "Total de testes: $TOTAL"
           echo "Passou: $PASSED"
           echo "Falhou: $REPROVADOS"
           echo "------------------------------------------"
-          
-          # 4. Saída condicional
+
           if [ "$REPROVADOS" -gt 0 ]; then
-            echo "Status: REPROVADO"
+            echo "Status: REPROVADO (Existem $REPROVADOS falhas)"
             exit 1
           else
             echo "Status: APROVADO"
