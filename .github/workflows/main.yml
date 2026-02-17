@@ -36,30 +36,31 @@ jobs:
       - name: Show Summary
         working-directory: ./aluno_code
         run: |
-          # Usamos o 'grep -c' direto e guardamos o resultado
-          # Adicionamos o '|| true' para o shell não abortar se o contador for 0
-          PASSED=$(grep -c '"result":"success"' machine_results.json || echo 0)
-          FAILED=$(grep -c '"result":"failure"' machine_results.json || echo 0)
-          ERROR=$(grep -c '"result":"error"' machine_results.json || echo 0)
+          # 1. Conta de forma simples
+          P=$(grep -c '"result":"success"' machine_results.json || echo 0)
+          F=$(grep -c '"result":"failure"' machine_results.json || echo 0)
+          E=$(grep -c '"result":"error"' machine_results.json || echo 0)
 
-          # Força a conversão para inteiro (remove espaços ou quebras de linha)
-          PASSED=$((10#$PASSED))
-          FAILED=$((10#$FAILED))
-          ERROR=$((10#$ERROR))
+          # 2. Garante que se estiver vazio, vire 0 (importante para o dash)
+          [ -z "$P" ] && P=0
+          [ -z "$F" ] && F=0
+          [ -z "$E" ] && E=0
 
-          REPROVADOS=$((FAILED + ERROR))
-          TOTAL=$((PASSED + REPROVADOS))
+          # 3. Faz a soma usando uma sintaxe básica
+          REPROVADOS=`expr $F + $E`
+          TOTAL=`expr $P + $REPROVADOS`
 
           echo "------------------------------------------"
           echo "RESULTADOS FINAIS"
           echo "------------------------------------------"
           echo "Total de testes: $TOTAL"
-          echo "Passou: $PASSED"
+          echo "Passou: $P"
           echo "Falhou: $REPROVADOS"
           echo "------------------------------------------"
 
+          # 4. Comparação simples
           if [ "$REPROVADOS" -gt 0 ]; then
-            echo "Status: REPROVADO (Existem $REPROVADOS falhas)"
+            echo "Status: REPROVADO"
             exit 1
           else
             echo "Status: APROVADO"
