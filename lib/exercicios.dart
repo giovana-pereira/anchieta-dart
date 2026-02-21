@@ -7,7 +7,6 @@ num somar(num a, num b){
 
 
 // 2. Par
-
 bool isPar(int n) {
   if (n % 2 == 0) {
     print('$n é um valor par');
@@ -17,6 +16,7 @@ bool isPar(int n) {
     print('$n é um valor impar');
     return false;
   }
+
 }
 
 // 3. Maior de idade
@@ -43,33 +43,55 @@ double converter(double c){
 String saudar(String nome){
   print('Olá, $nome!');
   return ('Olá, $nome!');
+
 }
 
 // 6. Média
 double calcularMedia(List<double> notas) {
-    int soma;
+  if(notas.isEmpty) {
+    print('Esta lista está zerada!');
+    return 0.0;
 
-    for (int i = 0; i < 5; i++) {
-      soma = soma + 1;
+  } else {
+    double soma = 0;
+    for (var nota in notas){
+      soma += nota;
     }
-      // 1. Somar os elementos usando fold
-    double soma = notas.fold(0, (anterior, atual) => anterior + atual);
-    
-    // 2. Calcular a média
+     
     double media = soma / notas.length;
-    
-    print('A média é: $media'); // Resultado: 7.75
-  return 0.0;
+    print('A média é $media');
+    return media; 
+  }
+
 }
 
 // 7. Filtrar Maiores
 List<int> buscarMaiores(List<int> numeros, int corte){
-  return [];
+  List<int> filtrados = [];
+
+  for (var n in numeros) {
+    if (n > corte) {
+      filtrados.add(n);
+    } else {
+      continue; 
+    }
+  }
+
+  print('Os valores maiores que $corte são $filtrados');
+  return filtrados;
+
 }
 
 // 8. Nulos (Null Safety)
 int tamanhoTexto(String? texto){
-  return 0;
+  if (texto == null) {
+      print('Esta é uma palvra nula! (${texto?.length ?? 0})');
+      return texto?.length ?? 0;
+  } else {
+      print('O tamanho de $texto é ${texto?.length ?? 0}');
+      return texto?.length ?? 0;
+  }
+
 }
 
 // 9. Carrinho com Desconto

@@ -44,24 +44,24 @@ void main() {
   });
 
   test('7. Deve filtrar números maiores que o corte', () {
-    //print('7. Filtrar nuemros maiores que o corte:')
+    print('7. Filtrar nuemros maiores que o corte:');
     expect(buscarMaiores([1, 5, 10, 20], 8), [10, 20]);
-    //print('\n --');
+    print('\n --');
   });
 
   test('8. Deve lidar com Strings nulas', () {
-    //print('8. Lidar com Strings nulas:');
+    print('8. Lidar com Strings nulas:');
     expect(tamanhoTexto("Flutter"), 7);
     expect(tamanhoTexto(null), 0);
-    //print('\n --');
+    print('\n --');
   });
 
   test('9. Deve calcular pedido com descontos progressivos', () {
-    //print('9. Calcular pedido com descontos progressivos:');
+    print('9. Calcular pedido com descontos progressivos:');
     // Regra: > 500 desc 15%, caso contrário 5%
     expect(fecharPedido([100, 400, 100]), 510.0); // 600 - 15%
     expect(fecharPedido([100, 100]), 190.0);     // 200 - 5%
-    //print('\n --');
+    print('\n --');
   });
 
   test('10. Deve buscar nome na lista (Case Insensitive)', () {
