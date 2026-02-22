@@ -115,13 +115,10 @@ double fecharPedido(List<double> precos){
 // 10. Busca Case Insensitive
 bool contemNome(List<String> nomes, String busca){
 for (var nome in nomes) {
-    // Comparamos ambos em minúsculo para ignorar a diferença de caixa
     if (nome.toLowerCase() == busca.toLowerCase()) {
       print('O nome "$busca" foi encotrado na lista!');
-      return true; // Se encontrou, retorna true e encerra a função
+      return true; 
     } else {
-      // O else aqui é opcional, pois se não for igual, 
-      // apenas continuamos para o próximo item do loop.
       continue; 
     }
   }
